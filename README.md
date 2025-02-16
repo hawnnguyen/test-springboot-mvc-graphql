@@ -285,7 +285,7 @@ Expected response:
 {
   "data": {
     "createPattern": {
-      "id": "3",
+      "id": "4",
       "name": "Factory Method",
       "type": "Creational",
       "useCases": "Create objects without specifying exact class",
@@ -323,7 +323,7 @@ Expected response:
         "category": "Design Patterns"
       },
       {
-        "id": "3",
+        "id": "4",
         "name": "Factory Method",
         "type": "Creational",
         "category": "Design Patterns"
