@@ -61,9 +61,13 @@ query {
 ```graphql
 query {
   patternById(id: "1") {
+    id
     name
     type
+    useCases
     description
+    category
+    phase
   }
 }
 ```
@@ -96,7 +100,7 @@ Create a new pattern:
 ```graphql
 mutation {
   createPattern(
-    id: "3"
+    id: "4"
     name: "Factory Method"
     type: "Creational"
     useCases: "Create objects without specifying exact class"
@@ -130,7 +134,7 @@ curl -X POST \
   http://localhost:8080/graphql \
   -H 'Content-Type: application/json' \
   -d '{
-    "query": "mutation { createPattern(id: \"3\", name: \"Factory Method\", type: \"Creational\", useCases: \"Create objects\", description: \"Factory pattern\", category: \"Design Patterns\", phase: \"Implementation\") { id name type } }"
+    "query": "mutation { createPattern(id: \"4\", name: \"Factory Method\", type: \"Creational\", useCases: \"Create objects\", description: \"Factory pattern\", category: \"Design Patterns\", phase: \"Implementation\") { id name type } }"
   }'
 ```
 
@@ -260,15 +264,15 @@ Expected response:
 Mutation:
 ```graphql
 mutation {
-  createPattern(
-    id: "3",
-    name: "Factory Method",
-    type: "Creational",
-    useCases: "Create objects without specifying exact class",
-    description: "Defines an interface for creating objects, but lets subclasses decide which class to instantiate",
-    category: "Design Patterns",
+  createPattern(pattern: {
+    id: "4"
+    name: "Factory Method"
+    type: "Creational"
+    useCases: "Create objects without specifying exact class"
+    description: "Defines an interface for creating objects, but lets subclasses decide which class to instantiate"
+    category: "Design Patterns"
     phase: "Implementation"
-  ) {
+  }) {
     id
     name
     type
