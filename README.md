@@ -76,8 +76,12 @@ query {
 ```graphql
 query {
   patternsByCategory(category: "Design Patterns") {
+    id
     name
     type
+    useCases
+    description
+    category
     phase
   }
 }
@@ -87,9 +91,13 @@ query {
 ```graphql
 query {
   patternsByPhase(phase: "Implementation") {
+    id
     name
     type
+    useCases
+    description
     category
+    phase
   }
 }
 ```
@@ -124,17 +132,47 @@ curl -X POST \
   http://localhost:8080/graphql \
   -H 'Content-Type: application/json' \
   -d '{
-    "query": "{ patterns { id name type description } }"
+    "query": "{ patterns { id name type useCases description category phase } }"
   }'
 ```
 
-2. Create a new pattern:
+2. Query pattern by ID:
 ```bash
 curl -X POST \
   http://localhost:8080/graphql \
   -H 'Content-Type: application/json' \
   -d '{
-    "query": "mutation { createPattern(id: \"4\", name: \"Factory Method\", type: \"Creational\", useCases: \"Create objects\", description: \"Factory pattern\", category: \"Design Patterns\", phase: \"Implementation\") { id name type } }"
+    "query": "query { patternById(id: \"1\") { id name type useCases description category phase } }"
+  }'
+```
+
+3. Query patterns by category:
+```bash
+curl -X POST \
+  http://localhost:8080/graphql \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "query": "query { patternsByCategory(category: \"Design Patterns\") { id name type useCases description category phase } }"
+  }'
+```
+
+4. Query patterns by phase:
+```bash
+curl -X POST \
+  http://localhost:8080/graphql \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "query": "query { patternsByPhase(phase: \"Implementation\") { id name type useCases description category phase } }"
+  }'
+```
+
+5. Create a new pattern:
+```bash
+curl -X POST \
+  http://localhost:8080/graphql \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "query": "mutation { createPattern(pattern: { id: \"4\", name: \"Factory Method\", type: \"Creational\", useCases: \"Create objects without specifying exact class\", description: \"Defines an interface for creating objects, but lets subclasses decide which class to instantiate\", category: \"Design Patterns\", phase: \"Implementation\" }) { id name type useCases description category phase } }"
   }'
 ```
 
@@ -259,7 +297,52 @@ Expected response:
 }
 ```
 
-### 4. Create New Pattern
+### 4. Query Patterns by Phase
+
+Query:
+```graphql
+query {
+  patternsByPhase(phase: "Implementation") {
+    id
+    name
+    type
+    useCases
+    description
+    category
+    phase
+  }
+}
+```
+
+Expected response:
+```json
+{
+  "data": {
+    "patternsByPhase": [
+      {
+        "id": "1",
+        "name": "Singleton",
+        "type": "Creational",
+        "useCases": "Ensure a class has only one instance",
+        "description": "The Singleton pattern ensures that a class has only one instance and provides a global point of access to that instance.",
+        "category": "Design Patterns",
+        "phase": "Implementation"
+      },
+      {
+        "id": "4",
+        "name": "Factory Method",
+        "type": "Creational",
+        "useCases": "Create objects without specifying exact class",
+        "description": "Defines an interface for creating objects, but lets subclasses decide which class to instantiate",
+        "category": "Design Patterns",
+        "phase": "Implementation"
+      }
+    ]
+  }
+}
+```
+
+### 5. Create New Pattern
 
 Mutation:
 ```graphql
@@ -297,42 +380,6 @@ Expected response:
       "category": "Design Patterns",
       "phase": "Implementation"
     }
-  }
-}
-```
-
-### 5. Query Patterns by Phase
-
-Query:
-```graphql
-query {
-  patternsByPhase(phase: "Implementation") {
-    id
-    name
-    type
-    category
-  }
-}
-```
-
-Expected response:
-```json
-{
-  "data": {
-    "patternsByPhase": [
-      {
-        "id": "1",
-        "name": "Singleton",
-        "type": "Creational",
-        "category": "Design Patterns"
-      },
-      {
-        "id": "4",
-        "name": "Factory Method",
-        "type": "Creational",
-        "category": "Design Patterns"
-      }
-    ]
   }
 }
 ```
