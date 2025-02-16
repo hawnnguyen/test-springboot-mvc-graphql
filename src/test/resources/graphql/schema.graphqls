@@ -1,0 +1,29 @@
+type Pattern {
+    id: ID!
+    name: String!
+    type: String!
+    useCases: String
+    description: String
+    category: String!
+    phase: String!
+}
+
+input PatternInput {
+    id: ID!
+    name: String!
+    type: String!
+    useCases: String
+    description: String
+    category: String!
+    phase: String!
+}
+
+type Query {
+    patterns: [Pattern]!
+    patternById(id: ID!): Pattern
+    patternsByCategory(category: String!): [Pattern]!
+}
+
+type Mutation {
+    createPattern(pattern: PatternInput!): Pattern!
+}
