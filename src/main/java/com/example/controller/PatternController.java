@@ -33,6 +33,11 @@ public class PatternController {
         return patternService.getPatternsByCategory(category);
     }
 
+    @QueryMapping
+    public List<Pattern> patternsByPhase(@Argument String phase) {
+        return patternService.getPatternsByPhase(phase);
+    }
+
     @MutationMapping
     public Pattern createPattern(@Argument PatternInput pattern) {
         return patternService.createPattern(pattern.toPattern());

@@ -102,6 +102,16 @@ query {
 }
 ```
 
+Note: The `patternsByPhase` query performs a case-insensitive match on the phase field. If no patterns are found for the given phase, it will return an empty list rather than null. For example:
+
+```json
+{
+  "data": {
+    "patternsByPhase": []
+  }
+}
+```
+
 ### Sample GraphQL Mutation
 
 Create a new pattern:
@@ -299,6 +309,8 @@ Expected response:
 
 ### 4. Query Patterns by Phase
 
+The `patternsByPhase` query allows you to find all patterns for a specific implementation phase. The query performs a case-insensitive match on the phase field.
+
 Query:
 ```graphql
 query {
@@ -314,7 +326,7 @@ query {
 }
 ```
 
-Expected response:
+Expected response when patterns are found:
 ```json
 {
   "data": {
@@ -338,6 +350,15 @@ Expected response:
         "phase": "Implementation"
       }
     ]
+  }
+}
+```
+
+Expected response when no patterns are found:
+```json
+{
+  "data": {
+    "patternsByPhase": []
   }
 }
 ```
